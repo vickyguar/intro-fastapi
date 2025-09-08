@@ -7,6 +7,8 @@ from pydantic import BaseModel, Field # Para validar campos
 from typing import Optional #, List
 import datetime
 
+from fastapi.responses import JSONResponse, HTMLResponse, PlainTextResponse, RedirectResponse, FileResponse
+
 # movies = [
 #     {"id": 1, "titulo": "El Padrino", "anio": 1972, "genero": "Crimen"},
 #     {"id": 2, "titulo": "Forrest Gump", "anio": 1994, "genero": "Drama"},
@@ -108,18 +110,19 @@ def create_movie_model(movie: MovieCreate):
     # movies.append(movie.dict()) # En Pydantic v2, está discontinuado
     # return {"message": "Película creada exitosamente", "movies": movies}
     return [movie.model_dump() for movie in movies] # Convertimos cada movie a diccionario
+    #return RedirectResponse(url="/", status_code=303) # Redirigimos a la raiz para ver todas las peliculas
 
 
 @app.put("/peliculas_model/{movie_id}")
 def update_movie_model(movie_id: int, movie: MovieUpdate) -> list[Movie] | dict:
     for _, m in enumerate(movies):
-        if m["id"] == movie_id:
-            movies["titulo"] = movie.titulo
-            movies["anio"] = movie.anio
-            movies["genero"] = movie.genero
-            movies["director"] = movie.director
-            movies["duracion"] = movie.duracion
-            movies["sinopsis"] = movie.sinopsis
+        if m.id == movie_id:
+            m.titulo = movie.titulo
+            m.anio = movie.anio
+            m.genero = movie.genero
+            m.director = movie.director
+            m.duracion = movie.duracion
+            m.sinopsis = movie.sinopsis
             return [movie.model_dump() for movie in movies] # Convertimos cada movie a diccionario
 
     return {"message": "Película no encontrada"}
@@ -143,6 +146,7 @@ def get_movie(id: int = Path(gt=0)) -> Movie | dict:
     return {"message": "Película no encontrada"}
 
 # Ahora con los parámetros query
+
 @app.get("/peliculas/")
 def get_movies_by_category(category:str = Query(min_length=3, max_length=20)) -> list[Movie] | dict:
     results = []
@@ -152,3 +156,24 @@ def get_movies_by_category(category:str = Query(min_length=3, max_length=20)) ->
     if results:
         return results
     return {"message": "No se encontraron películas en esa categoría"}
+
+"""
+Otros tipos de respuestas.
+El JSON response no es obligatorio utilizarlo, pero es común.
+"""
+
+@app.get("/peliculas")
+def get_movies() -> JSONResponse:
+    content=[movie.model_dump() for movie in movies]
+    return JSONResponse(content=content)
+
+
+# También existen las respuestas de texto plano:
+@app.get("/")
+def read_root() -> PlainTextResponse:
+    return PlainTextResponse(content = "Mi primera API con FastAPI!")
+
+
+@app.get("/get_file")
+def get_file():
+    return FileResponse("example.pdf")
