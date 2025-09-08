@@ -2,7 +2,7 @@
 Modelos de datos/ esquemas para la aplicación FastAPI
 """
 
-from fastapi import FastAPI, Body
+from fastapi import FastAPI, Body, Path, Query
 from pydantic import BaseModel, Field # Para validar campos
 from typing import Optional #, List
 import datetime
@@ -133,3 +133,22 @@ Validación de datos con Pydantic
 # Por ejemplo "Field required" si no se envía un campo obligatorio.
 # Por ejemplo, si accedemos a un link invalido /peliculas/one en lugar de /peliculas/1
 
+# Ahora cómo se hace para validar parametros de ruta y parámetros query?
+
+@app.get("/peliculas/{id}")
+def get_movie(id: int = Path(gt=0)) -> Movie | dict:
+    for movie in movies:
+        if movie.id == id:
+            return movie.model_dump() # Convertimos cada movie a diccionario
+    return {"message": "Película no encontrada"}
+
+# Ahora con los parámetros query
+@app.get("/peliculas/")
+def get_movies_by_category(category:str = Query(min_length=3, max_length=20)) -> list[Movie] | dict:
+    results = []
+    for movie in movies:
+        if movie.genero.lower() == category.lower(): # Ignoramos mayusculas y minusculas
+            results.append(movie.model_dump())
+    if results:
+        return results
+    return {"message": "No se encontraron películas en esa categoría"}
