@@ -10,8 +10,6 @@ Una **interfaz** es una capa de abstracción que permite que dos sistemas se com
 
 Una **API** (*Application Programming Interface* o *Interfaz de Programación de Aplicaciones*) es una interfaz que permite que distintas aplicaciones o programas de software intercambien datos entre sí.
 
----
-
 ## Conceptos iniciales
 
 - **Arquitectura de software**: es la forma en que está diseñado un sistema. Define cómo se organizan los componentes, cómo se comunican y qué funciones cumplen.
@@ -23,8 +21,6 @@ Una **API** (*Application Programming Interface* o *Interfaz de Programación de
     - Se pueden almacenar respuestas en caché.  
     - El servidor define qué datos están disponibles y cómo se pueden manipular.  
 - **Formato de datos más usado**: `JSON` (*JavaScript Object Notation*). Ligero, fácil de leer y ampliamente soportado.  
-
----
 
 ## Tipos de APIs
 
@@ -43,14 +39,10 @@ Además, las APIs pueden ser:
 En APIs privadas, al autenticarte el servidor devuelve un **token** que contiene los datos de autenticación.  
 El formato más común es **JWT (JSON Web Token)**.
 
----
-
 ## Recursos y endpoints
 
 Cada recurso que consultamos en una API tiene un identificador único llamado **URI**.  
 La consulta se hace a través de un **endpoint** (la URL expuesta por la API).  
-
----
 
 ## Códigos de respuesta HTTP
 
@@ -62,8 +54,6 @@ Cuando solicitas información a través de una API, el servidor responde con un 
 | 🔄 **3xx** | 301, 302 | Redirecciones.                                   |
 | ❌ **4xx** | 400, 403, 404 | Error del cliente (solicitud inválida, sin autorización, recurso no encontrado). |
 | ⚠️ **5xx** | 500, 503 | Error en el servidor.                            |
-
----
 
 ## Métodos HTTP
 
