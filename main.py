@@ -165,7 +165,9 @@ El JSON response no es obligatorio utilizarlo, pero es común.
 @app.get("/peliculas")
 def get_movies() -> JSONResponse:
     content=[movie.model_dump() for movie in movies]
-    return JSONResponse(content=content)
+    # Ejemplo con codigo de estado
+    # Cuando obtenemos todas las películas, por defecto es 200 (OK)
+    return JSONResponse(content=content, status_code=200)
 
 
 # También existen las respuestas de texto plano:
@@ -177,3 +179,9 @@ def read_root() -> PlainTextResponse:
 @app.get("/get_file")
 def get_file():
     return FileResponse("example.pdf")
+
+"""
+Códigos de estado
+Se pueden cambiar dentro de JSONResponse o cualquier otro tipo de respuesta.
+
+"""

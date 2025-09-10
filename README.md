@@ -1,3 +1,78 @@
-# intro-fastapi
+# Introducción a FastAPI
 
 Notas y práctica del curso [FastAPI](https://www.youtube.com/watch?v=OKUDmlvB8Hk&list=PLHftsZss8mw7pSRpCyd-TM4Mu43XdyB3R).
+
+---
+
+## ¿Qué es una API?
+
+Una **interfaz** es una capa de abstracción que permite que dos sistemas se comuniquen. Gracias a esta capa, podemos interactuar con un sistema sin necesidad de conocer lo que ocurre en su interior.
+
+Una **API** (*Application Programming Interface* o *Interfaz de Programación de Aplicaciones*) es una interfaz que permite que distintas aplicaciones o programas de software intercambien datos entre sí.
+
+---
+
+## Conceptos iniciales
+
+- **Arquitectura de software**: es la forma en que está diseñado un sistema. Define cómo se organizan los componentes, cómo se comunican y qué funciones cumplen.
+- **Servicio web**: sistema que permite la comunicación entre equipos dentro de una red, generalmente usando estándares como **HTTP**.
+- **REST (Representational State Transfer)**: arquitectura para el diseño de servicios web.  
+  - En español: *Transferencia de Estado Representacional*.  
+  - Características principales:
+    - El estado no se envía en las peticiones (es *stateless*).  
+    - Se pueden almacenar respuestas en caché.  
+    - El servidor define qué datos están disponibles y cómo se pueden manipular.  
+- **Formato de datos más usado**: `JSON` (*JavaScript Object Notation*). Ligero, fácil de leer y ampliamente soportado.  
+
+---
+
+## Tipos de APIs
+
+| Tipo        | Descripción                                                                 |
+|-------------|-----------------------------------------------------------------------------|
+| **Locales** | Se ejecutan en el mismo entorno (ej. API interna de un programa).           |
+| **Remotas** | Permiten la comunicación vía servicios web. Los más comunes son:            |
+|             | - **REST** → el más usado.                                                  |
+|             | - **SOAP** → protocolo más estricto y basado en XML, usado en entornos más corporativos. |
+
+Además, las APIs pueden ser:  
+
+- **Públicas** → acceso abierto a cualquiera.  
+- **Privadas** → requieren autenticación.  
+
+En APIs privadas, al autenticarte el servidor devuelve un **token** que contiene los datos de autenticación.  
+El formato más común es **JWT (JSON Web Token)**.
+
+---
+
+## Recursos y endpoints
+
+Cada recurso que consultamos en una API tiene un identificador único llamado **URI**.  
+La consulta se hace a través de un **endpoint** (la URL expuesta por la API).  
+
+---
+
+## Códigos de respuesta HTTP
+
+Cuando solicitas información a través de una API, el servidor responde con un código de estado:
+
+| Categoría  | Código  | Significado                                       |
+|------------|---------|---------------------------------------------------|
+| ✅ **2xx** | 200, 201 | Éxito.                                           |
+| 🔄 **3xx** | 301, 302 | Redirecciones.                                   |
+| ❌ **4xx** | 400, 403, 404 | Error del cliente (solicitud inválida, sin autorización, recurso no encontrado). |
+| ⚠️ **5xx** | 500, 503 | Error en el servidor.                            |
+
+---
+
+## Métodos HTTP
+
+Los métodos HTTP permiten interactuar con los recursos de la API.  
+Son equivalentes a un **CRUD** (*Create, Read, Update, Delete*) en bases de datos:
+
+| Método  | Acción                                   |
+|---------|------------------------------------------|
+| **GET**    | Consultar información                  |
+| **POST**   | Crear un nuevo recurso                 |
+| **PUT**    | Actualizar información existente       |
+| **DELETE** | Eliminar un recurso                    |
