@@ -69,7 +69,7 @@ Son equivalentes a un **CRUD** (*Create, Read, Update, Delete*) en bases de dato
 
 ---
 
-### Notitas al margen
+# Notitas al margen
 
 - **Archivo  `__init__.py `**: está ubicado en la carpeta src/routers del repo. Este archivo convierte la carpeta en un paquete de Python. `init` es la abreviatura de *initialization*. Se pueden incluir variables. Cuando se importa el paquete, se corre todo lo que está en el `__init__.py`.
 
