@@ -3,7 +3,7 @@ Modelos de datos/ esquemas para la aplicación FastAPI
 """
 
 from fastapi import FastAPI, Body, Path, Query
-from pydantic import BaseModel, Field # Para validar campos
+from pydantic import validator, BaseModel, Field # Para validar campos
 from typing import Optional #, List
 import datetime
 
@@ -76,7 +76,7 @@ class MovieCreate(BaseModel):
     """
     # id: int | None = None  # Hacemos que sea int o None, opcional
     id: int = Field(gt=0, default=movies[-1].id + 1 if movies else 1)  # gt "greater than"
-    titulo: str = Field(min_length=1, max_length=100, example="El Padrino")
+    titulo: str # Como tenemos la validacion abajo, ahora podemos eliminar esto = Field(min_length=1, max_length=100, example="El Padrino")
     anio: int = Field(le=datetime.date.today().year)  # le: less or equal, El año debe ser menor o igual al actual. gt "greater than"
     genero: str
     director: str = None
@@ -98,6 +98,14 @@ class MovieCreate(BaseModel):
             }
         }
     }
+    
+    @validator("titulo")
+    def validate_title(cls, value):
+        if len(value) < 1:
+            raise ValueError("El campo 'título' no puede estar vacío")
+        if len(value) > 100:
+            raise ValueError("El campo 'título' no puede tener más de 100 caracteres")
+        return value
 
 
 @app.post("/peliculas_model")
@@ -193,4 +201,8 @@ en la respuesta al cliente.
 Hay otro codigo de estado que podemos cambiar que tiene que ver con la
 documentacion de la API.
 
+"""
+
+"""
+Ahora vamos a ver cómo extender las validaciones que usamos anteriormente usando Pydantic.
 """
