@@ -76,3 +76,50 @@ Son equivalentes a un **CRUD** (*Create, Read, Update, Delete*) en bases de dato
 | **POST**   | Crear un nuevo recurso                 |
 | **PUT**    | Actualizar información existente       |
 | **DELETE** | Eliminar un recurso                    |
+
+---
+
+### Notas al margen
+
+- **Archivo  `__init__.py `**: está ubicado en la carpeta src/routers del repo. Este archivo convierte la carpeta en un paquete de Python. `init` es la abreviatura de *initialization*. Se pueden incluir variables. Cuando se importa el paquete, se corre todo lo que está en el `__init__.py`.
+
+Por ejemplo, si tenes una estructura de carpetas que es la siguiente:
+```
+ejemplo-init
+|-- main.py
+|-- math_operations
+|  |-- __init__.py
+|  |-- addition.py
+|  |-- substraction.py
+```
+
+En el archivo __init__.py se puede poner:
+```
+from .addition import add
+from .substraction import sub
+```
+
+Y las implementaciones en el main cambian en cada caso:
+<table>
+  <thead>
+    <tr>
+      <th>Con <code>__init__.py</code></th>
+      <th>Sin <code>__init__.py</code></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+<pre><code>import math_operations
+result = math_operations.add(5, 3)</code></pre>
+      </td>
+      <td>
+<pre><code>import math_operations
+import math_operations.addition
+result = math_operations.addition.add(5, 3)</code></pre>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+→ Lo que se puede hacer en el `__init__.py` es crear un string connection, por ejemplo.
