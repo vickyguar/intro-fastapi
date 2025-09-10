@@ -61,7 +61,8 @@ def get_movies() -> JSONResponse:
     # Cuando obtenemos todas las películas, por defecto es 200 (OK)
     # Asi podemos modificar el código de error que queremos eviar 
     # cuando respondemos una peticion a un cliente
-    return JSONResponse(content=content, status_code=200)
+    # =====================================================================
+    return # JSONResponse(content=content, status_code=200) # TODO: NOTE: No me tira el middleware, revisar
 
 
 @movie_router.post("/")
