@@ -142,8 +142,9 @@ Validación de datos con Pydantic
 def get_movie(id: int = Path(gt=0)) -> Movie | dict:
     for movie in movies:
         if movie.id == id:
-            return movie.model_dump() # Convertimos cada movie a diccionario
-    return {"message": "Película no encontrada"}
+            content = movie.model_dump() # Convertimos cada movie a diccionario
+            return JSONResponse(content=content, status_code=200)
+    return JSONResponse(content={"message": "Película no encontrada"}, status_code=404)
 
 # Ahora con los parámetros query
 
@@ -162,11 +163,13 @@ Otros tipos de respuestas.
 El JSON response no es obligatorio utilizarlo, pero es común.
 """
 
-@app.get("/peliculas")
+@app.get("/peliculas", tags=["Películas"], status_code=200, response_description="Esto debe devolver una respuesta exitosa") # 500 SOLO PARA COMPROBAR QUE SE ESTE MODIFICANDO
 def get_movies() -> JSONResponse:
     content=[movie.model_dump() for movie in movies]
     # Ejemplo con codigo de estado
     # Cuando obtenemos todas las películas, por defecto es 200 (OK)
+    # Asi podemos modificar el código de error que queremos eviar 
+    # cuando respondemos una peticion a un cliente
     return JSONResponse(content=content, status_code=200)
 
 
@@ -183,5 +186,11 @@ def get_file():
 """
 Códigos de estado
 Se pueden cambiar dentro de JSONResponse o cualquier otro tipo de respuesta.
+
+El código de estado que modificamos en ese caso es el codigo de estado que enviamos
+en la respuesta al cliente.
+
+Hay otro codigo de estado que podemos cambiar que tiene que ver con la
+documentacion de la API.
 
 """
