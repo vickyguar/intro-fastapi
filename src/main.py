@@ -8,7 +8,7 @@ from typing import Optional #, List
 import datetime
 from src.routers.movie_router import movie_router
 from fastapi.responses import JSONResponse, HTMLResponse, PlainTextResponse, RedirectResponse, FileResponse
-
+from src.utils.http_error_handler import HTTPErrorHandler # mi middleware personalizado para manejar errores
 # movies = [
 #     {"id": 1, "titulo": "El Padrino", "anio": 1972, "genero": "Crimen"},
 #     {"id": 2, "titulo": "Forrest Gump", "anio": 1994, "genero": "Drama"},
@@ -23,6 +23,8 @@ Incluimos las rutas ahora
 """
 
 app.include_router(prefix="/movies", router=movie_router)
+
+app.add_middleware(HTTPErrorHandler) # Añadimos el middleware personalizado
 
 
 # Que pasaría si quisieramos guardar más información de la película?

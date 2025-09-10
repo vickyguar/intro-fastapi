@@ -56,7 +56,7 @@ def get_movies_by_category(category:str = Query(min_length=3, max_length=20)) ->
 
 @movie_router.get("/", tags=["Películas"], status_code=200, response_description="Esto debe devolver una respuesta exitosa") # 500 SOLO PARA COMPROBAR QUE SE ESTE MODIFICANDO
 def get_movies() -> JSONResponse:
-    content=[movie.model_dump() for movie in movies]
+    #content=[movie.model_dump() for movie in movies]
     # Ejemplo con codigo de estado
     # Cuando obtenemos todas las películas, por defecto es 200 (OK)
     # Asi podemos modificar el código de error que queremos eviar 
