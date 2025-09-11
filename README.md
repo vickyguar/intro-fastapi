@@ -199,5 +199,5 @@ result = math_operations.addition.add(5, 3)</code></pre>
 
 → Lo que se puede hacer en el `__init__.py` es crear un string connection, por ejemplo.
 
-### Tipo e dato EmailStr
+### Tipo de dato EmailStr
 `from pydantic import EmailStr`: sirve para validar que los emails sean válidos.
