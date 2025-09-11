@@ -69,8 +69,93 @@ Son equivalentes a un **CRUD** (*Create, Read, Update, Delete*) en bases de dato
 
 ---
 
+# Pydantic
+
+Una de las grandes desventajas de Python es la falta de tipado estático. Python usa tipado dinámico, lo que significa que cuando creas una variable, no hay que especificarle el tipo.
+
+Por ejemplo:
+```
+# Python
+x = 10
+x = "hello" # hasta podes sobreescribir con otro tipo
+
+// En C
+int x = 10;
+```
+
+Esto, accidentalmente puede hacer que crees un objeto inválido:
+```
+alice = Person("Alice", 24) # Correct
+alice = Person("Alice", "24") # Mistake
+```
+
+Para resolver este tipo de problemas, actualmente Python tiene dataclasses y type-hinting.
+```
+@dataclass
+class Person:
+  name: str
+  age: int
+```
+
+Usando Pydantic:
+```
+from pydantic import BaseModel
+
+class User(BaseModel):
+  name: str
+  email: str
+  acount_id: int
+```
+
+→ Entonces, Pydantic es una **librería de validación de datos**.
+
+Para instanciar un usuario se puede hacer:
+```
+user = User(
+  name="Vicky"
+  email="vicky@guar.com"
+  acount_id=1
+)
+```
+
+También se puede con un diccionario de la siguiente manera:
+```
+user_data = {
+  name="Vicky"
+  email="vicky@guar.com"
+  acount_id=1
+}
+
+user = User(**user_data)
+```
+
+Se pueden crear, además, validaciones customizadas de la siguiente manera (es una class function):
+```
+@validator("acount_id")
+def validate_acount_id(cls, value):
+  if value <= 0:
+    raise ValueError(f"account_id must be positive: {value}")
+  return value
+```
+
+Pydantic también facilita la **JSON serialization**: 
+- Para convertir un modelo de Pydantic a JSON, se puede hacer simplemente `user_json_str = user.json()`. 
+- Si no queres un JSON string, pero queres un diccionario de python podes hacer: `user_json_obj = user.dict()`.
+- Para volver al modelo Pydantic podes hacer: `json_str = {"name": "jack", "email": "jack@test.io", "account_id": 1234}´´`, y luego `user = User.parse_raw(json_str)`
+
+### Comparacion con dataclass
+|                 | pydantic | dataclass  |
+|-----------------|----------|------------|
+| Type Hints      | ✅       | ✅        |
+| Data validation | ✅       | ❌        |
+| Serialization   | ✅       | ⚠️        |
+|  Built-In       | ❌       | ✅        |
+
+---
+
 # Notitas al margen
 
+### Archivo init
 - **Archivo  `__init__.py `**: está ubicado en la carpeta src/routers del repo. Este archivo convierte la carpeta en un paquete de Python. `init` es la abreviatura de *initialization*. Se pueden incluir variables. Cuando se importa el paquete, se corre todo lo que está en el `__init__.py`.
 
 Por ejemplo, si tenes una estructura de carpetas que es la siguiente:
@@ -113,3 +198,6 @@ result = math_operations.addition.add(5, 3)</code></pre>
 </table>
 
 → Lo que se puede hacer en el `__init__.py` es crear un string connection, por ejemplo.
+
+### Tipo e dato EmailStr
+`from pydantic import EmailStr`: sirve para validar que los emails sean válidos.
